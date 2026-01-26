@@ -1,26 +1,24 @@
 <script setup lang="ts">
 import { useJsPdf } from './composables'
 
-const { pdf, loadCustomFont } = useJsPdf({})
+const { loadCustomFontFn, addText, savePdf, setFont, clearClip, createCircle } = useJsPdf({})
 
-const downloadPdf = () => {
-  pdf.text('Hello World', 10, 10)
-  loadCustomFont(
-    pdf,
+const downloadPdf = async () => {
+  await loadCustomFontFn(
     '/PlaywriteGBJGuides-Regular.ttf',
     'PlaywriteGBJGuides',
     'PlaywriteGBJGuides',
-    'normal',
   )
-  pdf.setFont('PlaywriteGBJGuides')
-  console.log(pdf.getFontList())
-  pdf.save('hello-world.pdf')
+  setFont('PlaywriteGBJGuides', 'normal', 400)
+  addText('Hello World', 20, 20)
+  createCircle(100, 100, 50, null)
+  clearClip()
+  savePdf('hello-world.pdf')
 }
 </script>
 
 <template>
   <div>
-    <div>Hello World</div>
     <button @click="downloadPdf">Download PDF</button>
   </div>
 </template>

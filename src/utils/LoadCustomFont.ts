@@ -11,7 +11,6 @@ export default async function loadCustomFont(
   try {
     const fontResponse = await fetch(fontPath)
     const fontBytes = await fontResponse.arrayBuffer()
-
     // * Add font to jsPDF
     doc.addFileToVFS(fontName, arrayBufferToBase64(fontBytes))
     doc.addFont(fontName, fontFamily, fontStyle)
