@@ -1,20 +1,28 @@
 <script setup lang="ts">
-import HelloWorld from "./components/HelloWorld.vue";
-import TheWelcome from "./components/TheWelcome.vue";
+import { useJsPdf } from './composables'
+
+const { pdf, loadCustomFont } = useJsPdf({})
+
+const downloadPdf = () => {
+  pdf.text('Hello World', 10, 10)
+  loadCustomFont(
+    pdf,
+    '/PlaywriteGBJGuides-Regular.ttf',
+    'PlaywriteGBJGuides',
+    'PlaywriteGBJGuides',
+    'normal',
+  )
+  pdf.setFont('PlaywriteGBJGuides')
+  console.log(pdf.getFontList())
+  pdf.save('hello-world.pdf')
+}
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <div>
+    <div>Hello World</div>
+    <button @click="downloadPdf">Download PDF</button>
+  </div>
 </template>
 
 <style scoped>
