@@ -15,9 +15,13 @@
     "lint:eslint": "eslint . --fix --cache",
     "format": "prettier --write --experimental-cli src/",
     "fmt": "oxfmt",
-    "fmt:check": "oxfmt --check"
+    "fmt:check": "oxfmt --check",
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
   },
   "dependencies": {
+    "@tato30/vue-pdf": "^1.11.5",
     "jspdf": "^4.0.0",
     "jspdf-autotable": "^5.0.7",
     "vue": "^3.5.26"
@@ -44,6 +48,7 @@
     "typescript": "~5.9.3",
     "vite": "^7.3.1",
     "vite-plugin-vue-devtools": "^8.0.5",
+    "vitepress": "^2.0.0-alpha.15",
     "vitest": "^4.0.17",
     "vue-tsc": "^3.2.2"
   },

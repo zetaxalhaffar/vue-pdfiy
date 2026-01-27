@@ -1,53 +1,39 @@
-<script setup lang="ts">
-import { useJsPdf } from './composables'
-
-const { loadCustomFontFn, addText, savePdf, setFont, clearClip, createCircle } = useJsPdf({})
-
-const downloadPdf = async () => {
-  await loadCustomFontFn(
-    '/PlaywriteGBJGuides-Regular.ttf',
-    'PlaywriteGBJGuides',
-    'PlaywriteGBJGuides',
-  )
-  setFont('PlaywriteGBJGuides', 'normal', 400)
-  addText('Hello World', 20, 20)
-  createCircle(100, 100, 50, null)
-  clearClip()
-  savePdf('hello-world.pdf')
-}
-</script>
-
 <template>
-  <div>
-    <button @click="downloadPdf">Download PDF</button>
+  <div class="flex gap-4">
+    <div>
+      <button @click="saveAutoTable">Save Auto Table</button>
+      <button @click="renderAutoTable">Render Auto Table</button>
+    </div>
+    <div v-if="pdfUrl" class="pdf-style">
+      <VuePDF :pdf="pdf" v-if="pdfUrl" :page="page" />
+    </div>
   </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
+<script lang="ts" setup>
+import { useJsPdf } from '@/composables'
+import { VuePDF, usePDF, type PDFSrc } from '@tato30/vue-pdf'
+import { ref } from 'vue'
+
+const { pdf: pdfJsPdf, outputAsArrayBuffer, createTable } = useJsPdf({})
+
+const pdfUrl = ref<PDFSrc | ArrayBuffer | null>(null)
+const page = ref(1)
+const { pdf } = usePDF(pdfUrl as PDFSrc)
+
+const saveAutoTable = () => {
+  pdfJsPdf.save('auto-table.pdf')
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+const renderAutoTable = () => {
+  createTable({
+    body: [[{ content: 'Hello' }, { content: 'World' }]],
+  })
+  const arrayBuffer = outputAsArrayBuffer()
+  pdfUrl.value = arrayBuffer
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+</script>
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
+<style></style>
