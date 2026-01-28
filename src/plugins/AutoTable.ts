@@ -1,9 +1,11 @@
+import type { CellDefAutoTable } from '@/types/table'
 import type jsPDF from 'jspdf'
 import {
   autoTable,
-  type CellDef,
   type Color,
   type ColumnInput,
+  type CellHookData,
+  type HookData,
   type HorizontalPageBreakBehaviourType,
   type MarginPadding,
   type PageBreakType,
@@ -37,23 +39,23 @@ export interface AutoTableOptions {
   horizontalPageBreakRepeat?: string | number | string[] | number[]
   horizontalPageBreakBehaviour?: HorizontalPageBreakBehaviourType
   includeHiddenHtml?: boolean
+  // jsPDF-AutoTable hooks
+  didParseCell?: (data: CellHookData) => void | boolean
+  willDrawCell?: (data: CellHookData) => void | boolean
+  didDrawCell?: (data: CellHookData) => void | boolean
+  willDrawPage?: (data: HookData) => void | boolean
+  didDrawPage?: (data: HookData) => void | boolean
 }
 
 export interface AutoTableContent {
-  header?: CellDef[][]
-  body: CellDef[][]
-  footer?: CellDef[][]
+  header?: CellDefAutoTable[][]
+  body: CellDefAutoTable[][]
+  footer?: CellDefAutoTable[][]
   columns?: ColumnInput[]
   html?: string | HTMLTableElement
 }
 
-
-
-export default (
-  pdf: jsPDF,
-  options: AutoTableOptions,
-  content: AutoTableContent,
-) => {
+export default (pdf: jsPDF, options: AutoTableOptions, content: AutoTableContent) => {
   return autoTable(pdf, {
     ...options,
     head: content.header,

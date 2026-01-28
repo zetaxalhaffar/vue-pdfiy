@@ -1,4 +1,4 @@
-import type { MarginPadding, ThemeType } from "jspdf-autotable"
+import type { CellHookData, HookData, MarginPadding, ThemeType } from 'jspdf-autotable'
 
 // src/types/table.ts
 export interface TableBuilderConfig {
@@ -7,6 +7,10 @@ export interface TableBuilderConfig {
   defaultMargin?: MarginPadding
 }
 
-export interface ITableBuilder {
-  // All the method signatures
+export interface TableBuilderEvent {
+  didParseCell: (data: CellHookData) => void
+  willDrawCell: (data: CellHookData) => void
+  didDrawCell: (data: CellHookData) => void
+  willDrawPage: (data: HookData) => void
+  didDrawPage: (data: HookData) => void
 }

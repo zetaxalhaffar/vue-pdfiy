@@ -8,13 +8,40 @@
       <VuePDF :pdf="pdf" v-if="pdfUrl" :page="page" />
     </div>
   </div>
+
+  <div>
+    <button @click="testExample1">Test Ex 1</button>
+    <button @click="testExample2">Test Ex 2</button>
+    <button @click="testExample3">Test Ex 3</button>
+    <button @click="testExample4">Test Ex 4</button>
+    <button @click="testExample5">Test Ex 5</button>
+    <button @click="testExample6">Test Ex 6</button>
+    <button @click="testExample7">Test Ex 7</button>
+    <button @click="testExample8">Test Ex 8</button>
+    <button @click="testExample9">Test Ex 9</button>
+    <button @click="testExample10">Test Ex 10</button>
+    <button @click="testExample10">Run All Examples</button>
+    <button @click="testExample11">Run All Examples</button>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { useJsPdf } from '@/composables'
 import { VuePDF, usePDF, type PDFSrc } from '@tato30/vue-pdf'
 import { ref } from 'vue'
-
+import {
+  example1_SimpleTable,
+  example2_StyledTable,
+  example3_DynamicTable,
+  example4_TableFromObjects,
+  example5_MultiPageReport,
+  example6_ColumnStyling,
+  example7_ReusingBuilder,
+  example8_Invoice,
+  example9_GetContent,
+  example10_ResetAndRebuild,
+  runAllExamples,
+} from './examples/tableBuilderExample'
 const { pdf: pdfJsPdf, outputAsArrayBuffer, createTable } = useJsPdf({})
 
 const pdfUrl = ref<PDFSrc | ArrayBuffer | null>(null)
@@ -33,7 +60,49 @@ const renderAutoTable = () => {
   pdfUrl.value = arrayBuffer
 }
 
+const testExample1 = () => {
+  example1_SimpleTable()
+}
 
+const testExample2 = () => {
+  example2_StyledTable()
+}
+
+const testExample3 = () => {
+  example3_DynamicTable()
+}
+
+const testExample4 = () => {
+  example4_TableFromObjects()
+}
+
+const testExample5 = () => {
+  example5_MultiPageReport()
+}
+
+const testExample6 = () => {
+  example6_ColumnStyling()
+}
+
+const testExample7 = () => {
+  example7_ReusingBuilder()
+}
+
+const testExample8 = () => {
+  example8_Invoice()
+}
+
+const testExample9 = () => {
+  example9_GetContent()
+}
+
+const testExample10 = () => {
+  example10_ResetAndRebuild()
+}
+
+const testExample11 = () => {
+  runAllExamples()
+}
 </script>
 
 <style></style>

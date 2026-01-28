@@ -11,7 +11,7 @@ import type {
 import loadCustomFont from '@/utils/LoadCustomFont'
 import jsPDF, { type jsPDFOptions } from 'jspdf'
 import useAutoTable, { type AutoTableContent, type AutoTableOptions } from '@/plugins/AutoTable'
-import type { CellDef, ColumnInput } from 'jspdf-autotable'
+import { TableBuilder, type TableBuilderConfig } from './useTableBuilder'
 
 export function useJsPdf(options: jsPDFOptions) {
   /**
@@ -374,11 +374,28 @@ export function useJsPdf(options: jsPDFOptions) {
     useAutoTable(pdf, options || {}, { ...content })
   }
 
+  /**
+   * @description Create a new TableBuilder instance for programmatic table creation
+   * @param {TableBuilderConfig} config - Optional configuration for the table builder
+   * @returns {TableBuilder} TableBuilder instance
+   * @example
+   * const builder = createTableBuilder()
+   * builder
+   *   .addHeader(['Name', 'Age', 'City'])
+   *   .addRow(['John', 30, 'NYC'])
+   *   .addRow(['Jane', 25, 'LA'])
+   *   .build()
+   */
+  const createTableBuilder = (config?: TableBuilderConfig): TableBuilder => {
+    return new TableBuilder(pdf, config)
+  }
+
   return {
     pdf,
     fileId,
     // * Table
     createTable,
+    createTableBuilder,
     // * Font
     loadCustomFontFn,
     setFont,
@@ -419,3 +436,15 @@ export function useJsPdf(options: jsPDFOptions) {
     fillColor,
   }
 }
+
+// Export TableBuilder and related utilities
+export { TableBuilder, useTableBuilder, type TableBuilderConfig } from './useTableBuilder'
+export {
+  tableHelpers,
+  fromObjects,
+  fromKeys,
+  formatCurrency,
+  formatDate,
+  createTotalRow,
+} from '@/utils/tableHelpers'
+export type { TableHelpers, ITableBuilder } from '@/types/table'
