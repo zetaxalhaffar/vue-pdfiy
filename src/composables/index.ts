@@ -7,11 +7,13 @@ import type {
   OutputUrlTypes,
   OutputWindowTypes,
   PageFormat,
+  TextCustomOptions,
 } from '@/types'
 import loadCustomFont from '@/utils/LoadCustomFont'
-import jsPDF, { type jsPDFOptions } from 'jspdf'
+import jsPDF, { type jsPDFOptions, type TextOptions, type TextOptionsLight } from 'jspdf'
 import useAutoTable, { type AutoTableContent, type AutoTableOptions } from '@/plugins/AutoTable'
 import { TableBuilder, type TableBuilderConfig } from './useTableBuilder'
+import centralizeText from '@/utils/SetTextPosition'
 
 export function useJsPdf(options: jsPDFOptions) {
   /**
@@ -73,13 +75,23 @@ export function useJsPdf(options: jsPDFOptions) {
   /**
    * @description Add text to the pdf
    * @param {string} text - Text to add
-   * @param {number} x - X coordinate
-   * @param {number} y - Y coordinate
+   * @param {options} TextCustomOptions - Text Options
+   * @options { x: number, y: number, isCentered?: boolean } - Position of the text
    * @returns {void} Void
    */
 
-  const addText = (text: string, x: number, y: number): void => {
-    pdf.text(text, x, y)
+  const addText = (
+    text: string,
+    options: TextCustomOptions,
+    textOptions?: TextOptionsLight,
+    transform?: number | unknown,
+  ): void => {
+    if (options.isCentered) {
+      const { x, y } = centralizeText(pdf, text, options)
+      pdf.text(text, x, y, textOptions)
+      return
+    }
+    pdf.text(text, options.x || 0, options.y || 0, textOptions, transform)
   }
 
   /**
@@ -291,6 +303,31 @@ export function useJsPdf(options: jsPDFOptions) {
   }
 
   /**
+   * @description show total pages based on expression
+   * @param {string} expression - Expression to evaluate
+   * @returns {void} Void
+   */
+  const putTotalPages = (expression: string): void => {
+    pdf.putTotalPages(expression)
+  }
+
+  /**
+   * @description Get the page height
+   * @returns {number} Total pages
+   */
+  const getPageHeight = (): number => {
+    return pdf.internal.pageSize.getHeight()
+  }
+
+  /**
+   * @description Get the page width
+   * @returns {number} Page width
+   */
+  const getPageWidth = (): number => {
+    return pdf.internal.pageSize.getWidth()
+  }
+
+  /**
    * @description Output the pdf as a string (default)
    * @returns {string} PDF as string
    */
@@ -434,6 +471,11 @@ export function useJsPdf(options: jsPDFOptions) {
     lineTo,
     moveTo,
     fillColor,
+    // * Total Pages
+    putTotalPages,
+    // * Page
+    getPageHeight,
+    getPageWidth,
   }
 }
 

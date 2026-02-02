@@ -85,10 +85,7 @@ export type OutputStringTypes = 'datauristring' | 'dataurlstring'
 /**
  * @description Output types that return Window (with optional options)
  */
-export type OutputWindowTypes =
-  | 'pdfobjectnewwindow'
-  | 'pdfjsnewwindow'
-  | 'dataurlnewwindow'
+export type OutputWindowTypes = 'pdfobjectnewwindow' | 'pdfjsnewwindow' | 'dataurlnewwindow'
 
 /**
  * @description Output types that return boolean (with optional options)
@@ -98,18 +95,18 @@ export type OutputBooleanTypes = 'dataurl' | 'datauri'
 /**
  * @description All blob-related output types
  */
-export type OutputBlobsTypes =
-  | OutputArrayBufferType
-  | OutputBlobType
-  | OutputUrlTypes
+export type OutputBlobsTypes = OutputArrayBufferType | OutputBlobType | OutputUrlTypes
 
 /**
  * @description All data-related output types
  */
-export type OutputDataTypes =
-  | OutputStringTypes
-  | OutputBooleanTypes
-  | OutputWindowTypes
+export type OutputDataTypes = OutputStringTypes | OutputBooleanTypes | OutputWindowTypes
 
-
-
+/**
+ * @description Text options
+ */
+export type TextCustomOptions = {
+  x?: number
+  y?: number
+  isCentered?: boolean
+}
