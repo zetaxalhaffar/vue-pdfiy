@@ -10,7 +10,7 @@ import type {
   TextCustomOptions,
 } from '@/types'
 import loadCustomFont from '@/utils/LoadCustomFont'
-import jsPDF, { type jsPDFOptions, type TextOptions, type TextOptionsLight } from 'jspdf'
+import jsPDF, { type jsPDFOptions, type TextOptionsLight } from 'jspdf'
 import useAutoTable, { type AutoTableContent, type AutoTableOptions } from '@/plugins/AutoTable'
 import { TableBuilder, type TableBuilderConfig } from './useTableBuilder'
 import centralizeText from '@/utils/SetTextPosition'

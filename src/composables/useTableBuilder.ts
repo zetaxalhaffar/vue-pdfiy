@@ -284,6 +284,18 @@ export class TableBuilder {
     return this
   }
 
+  /**
+   * Set extra options for the table
+   * @param options - AutoTableOptions for the table
+   * @returns this - For method chaining
+   * @hit this options will override the default options
+   */
+
+  setExtraOptions(options: AutoTableOptions): this {
+    this.options = { ...this.options, ...options }
+    return this
+  }
+
   // ============ Build Methods ============
 
   /**
