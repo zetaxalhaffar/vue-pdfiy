@@ -22,9 +22,9 @@
   },
   "dependencies": {
     "@tato30/vue-pdf": "^1.11.5",
-    "jspdf": "^4.0.0",
+    "jspdf": "^4.1.0",
     "jspdf-autotable": "^5.0.7",
-    "vue": "^3.5.26"
+    "vue": "^3.5.27"
   },
   "devDependencies": {
     "@tsconfig/node24": "^24.0.4",

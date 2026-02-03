@@ -1,9 +1,8 @@
 // https://vitepress.dev/guide/custom-theme
-import { h } from 'vue'
+import { h, defineAsyncComponent } from 'vue'
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import './style.css'
-import SimpleText from '../../src/examples/simple-text.vue'
 
 export default {
   extends: DefaultTheme,
@@ -13,6 +12,10 @@ export default {
     })
   },
   enhanceApp({ app, router, siteData }) {
-    app.component('SimpleText', SimpleText)
+    // Use dynamic import to avoid SSR issues with pdfjs-dist
+    if (typeof window !== 'undefined') {
+      const SimpleText = defineAsyncComponent(() => import('../../src/examples/simple-text.vue'))
+      app.component('SimpleText', SimpleText)
+    }
   }
 } satisfies Theme
