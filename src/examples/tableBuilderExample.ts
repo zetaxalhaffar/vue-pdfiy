@@ -18,26 +18,26 @@ export function example1_SimpleTable() {
     format: 'a4',
   })
 
-  addText('Hello, world!', 10, 10)
+  addText('Hello, world!', { x: 10, y: 10 })
   createTableBuilder()
     .setHeader([['Name', 'Age', 'City']])
     .addRow(['John Doe', '30', 'New York'])
     .addRow(['Jane Smith', '25', 'Los Angeles'])
     .addRow(['Bob Johnson', '35', 'Chicago'])
-    .on('willDrawCell', (data) => {
-      if (data.section == 'body') return
+    // .on('willDrawCell', (data) => {
+    //   if (data.section == 'body') return
 
-      console.log(data)
-      if (String(data.cell.raw).toLowerCase() === 'city') {
-        const { doc, cell } = data
-        const x = cell.x + 2
-        const y = cell.y - 2
+    //   console.log(data)
+    //   if (String(data.cell.raw).toLowerCase() === 'city') {
+    //     const { doc, cell } = data
+    //     const x = cell.x + 2
+    //     const y = cell.y - 2
 
-        doc.setTextColor('#4caf50')
-        doc.setFontSize(8)
-        doc.text('✔', x, y)
-      }
-    })
+    //     doc.setTextColor('#4caf50')
+    //     doc.setFontSize(8)
+    //     doc.text('✔', x, y)
+    //   }
+    // })
     .build()
 
   savePdf('simple-table.pdf')
@@ -128,8 +128,8 @@ export function example4_TableFromObjects() {
   const { header, body } = fromObjects(employees)
 
   createTableBuilder()
-    .setHeader(header)
-    .addRows(body)
+    .setHeader(header as CellDefAutoTable[][])
+    .addRows(body as CellDefAutoTable[][])
     .setTheme('grid')
     .setHeaderStyles({ fillColor: '#673AB7', textColor: '#fff' })
     .build()
@@ -150,10 +150,10 @@ export function example5_MultiPageReport() {
   console.log(pdf.getCurrentPageInfo())
   // Title
   setFontSize(20)
-  addText('Monthly Sales Report', 105, 20)
+  addText('Monthly Sales Report', { x: 105, y: 20 })
 
   setFontSize(12)
-  addText('January 2024', 105, 30)
+  addText('January 2024', { x: 105, y: 30 })
 
   // First table - Sales by region
   createTableBuilder()
@@ -262,10 +262,10 @@ export function example8_Invoice() {
 
   // Invoice header
   setFontSize(24)
-  addText('INVOICE', 105, 20)
+  addText('INVOICE', { x: 105, y: 20 })
   setFontSize(10)
-  addText('Invoice #: INV-2024-001', 20, 35)
-  addText('Date: January 28, 2024', 20, 40)
+  addText('Invoice #: INV-2024-001', { x: 20, y: 35 })
+  addText('Date: January 28, 2024', { x: 20, y: 40 })
 
   // Invoice items
   const items = [

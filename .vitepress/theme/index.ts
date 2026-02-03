@@ -11,11 +11,12 @@ export default {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
     })
   },
-  enhanceApp({ app, router, siteData }) {
+  // , _router, siteData
+  enhanceApp({ app }) {
     // Use dynamic import to avoid SSR issues with pdfjs-dist
     if (typeof window !== 'undefined') {
       const SimpleText = defineAsyncComponent(() => import('../../src/examples/simple-text.vue'))
       app.component('SimpleText', SimpleText)
     }
-  }
+  },
 } satisfies Theme

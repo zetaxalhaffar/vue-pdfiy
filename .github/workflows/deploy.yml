@@ -41,6 +41,8 @@ jobs:
         run: rm -rf .vitepress/dist
       - name: Install dependencies
         run: bun install # or pnpm install / yarn install / bun install
+      - name: Build Vue Project
+        run: bun run build
       - name: Build with VitePress
         run: bun run docs:build
         env:
