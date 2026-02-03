@@ -3,7 +3,7 @@ import { fileURLToPath, URL } from 'node:url'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  srcDir: 'src/markdown',
+  srcDir: 'docs',
   title: 'vue-pdfiy',
   description: 'vue-pdf-render-maker',
   base: '/vue-pdfiy/',
