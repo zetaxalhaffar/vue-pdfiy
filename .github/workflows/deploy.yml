@@ -35,6 +35,10 @@ jobs:
       - uses: oven-sh/setup-bun@v1
       - name: Setup Pages
         uses: actions/configure-pages@v4
+      - name: Remove node_modules
+        run: rm -rf node_modules
+      - name: Remove .vitepress/dist
+        run: rm -rf .vitepress/dist
       - name: Install dependencies
         run: bun install # or pnpm install / yarn install / bun install
       - name: Build with VitePress
