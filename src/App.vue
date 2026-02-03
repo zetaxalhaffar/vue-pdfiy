@@ -1,5 +1,19 @@
 <template>
   <div class="flex gap-4">
+    <svg
+      id="svg-example"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="#B00FFF"
+      stroke="#FF00FF"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M12 2L2 22h20z"></path>
+    </svg>
     <div>
       <button @click="saveAutoTable">Save Auto Table</button>
       <button @click="renderAutoTable">Render Auto Table</button>

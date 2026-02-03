@@ -7,6 +7,7 @@ import type {
   OutputUrlTypes,
   OutputWindowTypes,
   PageFormat,
+  SvgOptions,
   TextCustomOptions,
 } from '@/types'
 import loadCustomFont from '@/utils/LoadCustomFont'
@@ -14,6 +15,7 @@ import jsPDF, { type jsPDFOptions, type TextOptionsLight } from 'jspdf'
 import useAutoTable, { type AutoTableContent, type AutoTableOptions } from '@/plugins/AutoTable'
 import { TableBuilder, type TableBuilderConfig } from './useTableBuilder'
 import centralizeText from '@/utils/SetTextPosition'
+import { addSvg } from '@/plugins/Svg'
 
 export function useJsPdf(options: jsPDFOptions) {
   /**
@@ -427,6 +429,22 @@ export function useJsPdf(options: jsPDFOptions) {
     return new TableBuilder(pdf, config)
   }
 
+  /**
+   * @description Add a SVG to the pdf (parses SVG string from user into an SVGElement)
+   * @param {SvgOptions} options - Options for the SVG (svg as string, plus optional x, y, width, height)
+   * @returns {void} Void
+   */
+  const svg = (options: SvgOptions): void => {
+    const element = document.getElementById('svg-example')
+    addSvg(pdf, {
+      svg: element,
+      x: options.x,
+      y: options.y,
+      width: options.width,
+      height: options.height,
+    })
+  }
+
   return {
     pdf,
     fileId,
@@ -476,6 +494,8 @@ export function useJsPdf(options: jsPDFOptions) {
     // * Page
     getPageHeight,
     getPageWidth,
+    // * SVG
+    svg,
   }
 }
 

@@ -110,3 +110,20 @@ export type TextCustomOptions = {
   y?: number
   isCentered?: boolean
 }
+
+
+export type SvgGenerateOptions = {
+  svg: SVGElement
+  x?: number
+  y?: number
+  width?: number
+  height?: number
+}
+
+export type SvgOptions = {
+  svg: string
+  x?: number
+  y?: number
+  width?: number
+  height?: number
+}
