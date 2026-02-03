@@ -6,7 +6,7 @@ export default defineConfig({
   srcDir: 'src/markdown',
   title: 'vue-pdfiy',
   description: 'vue-pdf-render-maker',
-
+  base: '/vue-pdfiy/',
   vite: {
     resolve: {
       alias: {
