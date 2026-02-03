@@ -29,7 +29,6 @@ export default defineConfig({
         items: [
           { text: 'Introduction', link: '/guide/introduction' },
           { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' },
         ],
       },
       {

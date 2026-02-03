@@ -14,8 +14,6 @@ hero:
       text: Get Started
       link: /guide/introduction
     - theme: alt
-      text: API Examples
-      link: /api-examples
 
 features:
   - title: Feature A
