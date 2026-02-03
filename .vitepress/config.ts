@@ -27,7 +27,8 @@ export default defineConfig({
         text: 'Guide',
         items: [
           { text: 'Introduction', link: '/guide/introduction' },
-          { text: 'Markdown Examples', link: '/markdown-examples' },
+          { text: 'Quick Start', link: '/guide/quick-start' },
+          // { text: 'Markdown Examples', link: '/markdown-examples' },
         ],
       },
       {
