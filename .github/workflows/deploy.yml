@@ -38,10 +38,10 @@ jobs:
       #     version: 9 # Not needed if you've set "packageManager" in package.json
       - uses: oven-sh/setup-bun@v1 # Uncomment this if you're using Bun
       - name: Setup Node
-        uses: actions/setup-node@v9
+        uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: bun # or pnpm / yarn
+          cache: npm # or pnpm / yarn
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Install dependencies
