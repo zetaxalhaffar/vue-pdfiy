@@ -1,3 +1,4 @@
+import useAutoTable, { type AutoTableContent, type AutoTableOptions } from '@/plugins/AutoTable'
 import type {
   LineCapStyle,
   Orientation,
@@ -7,15 +8,13 @@ import type {
   OutputUrlTypes,
   OutputWindowTypes,
   PageFormat,
-  SvgOptions,
+  SvgGenerateOptions,
   TextCustomOptions,
 } from '@/types'
 import loadCustomFont from '@/utils/LoadCustomFont'
-import jsPDF, { type jsPDFOptions, type TextOptionsLight } from 'jspdf'
-import useAutoTable, { type AutoTableContent, type AutoTableOptions } from '@/plugins/AutoTable'
-import { TableBuilder, type TableBuilderConfig } from './useTableBuilder'
 import centralizeText from '@/utils/SetTextPosition'
-import { addSvg } from '@/plugins/Svg'
+import jsPDF, { type jsPDFOptions, type TextOptionsLight } from 'jspdf'
+import { TableBuilder, type TableBuilderConfig } from './useTableBuilder'
 
 export function useJsPdf(options: jsPDFOptions) {
   /**
@@ -434,15 +433,8 @@ export function useJsPdf(options: jsPDFOptions) {
    * @param {SvgOptions} options - Options for the SVG (svg as string, plus optional x, y, width, height)
    * @returns {void} Void
    */
-  const svg = (options: SvgOptions): void => {
-    const element = document.getElementById('svg-example')
-    addSvg(pdf, {
-      svg: element,
-      x: options.x,
-      y: options.y,
-      width: options.width,
-      height: options.height,
-    })
+  const svg = (options: SvgGenerateOptions): void => {
+    pdf.addSvgAsImage(options.svg, options.x || 0, options.y || 0, options.width || 0, options.height || 0, options.alias || undefined, false, options.rotation || 0)
   }
 
   return {
@@ -500,13 +492,10 @@ export function useJsPdf(options: jsPDFOptions) {
 }
 
 // Export TableBuilder and related utilities
-export { TableBuilder, useTableBuilder, type TableBuilderConfig } from './useTableBuilder'
+export type { ITableBuilder, TableHelpers } from '@/types/table'
 export {
-  tableHelpers,
-  fromObjects,
-  fromKeys,
-  formatCurrency,
-  formatDate,
-  createTotalRow,
+  createTotalRow, formatCurrency,
+  formatDate, fromKeys, fromObjects, tableHelpers
 } from '@/utils/tableHelpers'
-export type { TableHelpers, ITableBuilder } from '@/types/table'
+export { TableBuilder, useTableBuilder, type TableBuilderConfig } from './useTableBuilder'
+

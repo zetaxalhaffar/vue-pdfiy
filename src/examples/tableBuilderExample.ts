@@ -5,7 +5,7 @@
  * for creating PDF tables programmatically
  */
 
-import { useJsPdf, fromObjects, formatCurrency } from '@/composables'
+import { formatCurrency, fromObjects, useJsPdf } from '@/composables'
 import type { CellDefAutoTable } from '@/types/table'
 
 // ============================================
@@ -23,8 +23,8 @@ export function example1_SimpleTable() {
     svg: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#B00FFF" stroke="#FF00FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 22h20z"></path></svg>',
     x: 10,
     y: 10,
-    width: 48,
-    height: 48,
+    width: 400,
+    height: 400,
   })
   // createTableBuilder()
   //   .setHeader([['Name', 'Age', 'City']])
@@ -47,7 +47,9 @@ export function example1_SimpleTable() {
   // })
   // .build()
 
-  savePdf('simple-table.pdf')
+  setTimeout(() => {
+    savePdf('simple-table.pdf')
+  }, 1000)
 }
 
 // ============================================

@@ -36,8 +36,8 @@ export default defineConfig({
         items: [
           // { text: 'AutoTable', link: '/plugins/auto-table' },
           { text: 'Table Builder', link: '/plugins/table-builder' },
-          { text: 'Table Builder Events', link: '/plugins/table-builder-hooks' },
           { text: 'Table Builder API Reference', link: '/plugins/table-builder-api-refrences' },
+          { text: 'Table Builder Events', link: '/plugins/table-builder-hooks' },
         ],
       },
     ],

@@ -1,15 +1,6 @@
 import type { SvgGenerateOptions } from '@/types'
 import type jsPDF from 'jspdf'
-import 'svg2pdf.js'
 
-export const addSvg = (pdf: jsPDF, options: SvgGenerateOptions): void => {
-  console.log('==================')
-  console.log(options)
-  console.log('==================')
-  pdf.svg(options.svg, {
-    x: options.x || 0,
-    y: options.y || 0,
-    width: options.width || 0,
-    height: options.height || 0,
-  })
+export const addSvg = async (pdf: jsPDF, options: SvgGenerateOptions): Promise<void> => {
+  pdf.addSvgAsImage(options.svg, options.x || 0, options.y || 0, options.width || 0, options.height || 0, options.alias || undefined, false, options.rotation || 0)
 }

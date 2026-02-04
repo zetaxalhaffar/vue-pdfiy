@@ -111,13 +111,18 @@ export type TextCustomOptions = {
   isCentered?: boolean
 }
 
+export type SvgCompression = 'NONE' | 'FAST' | 'MEDIUM' | 'SLOW'
+
 
 export type SvgGenerateOptions = {
-  svg: SVGElement
+  svg: string
   x?: number
   y?: number
   width?: number
   height?: number
+  alias?: string
+  compression?: SvgCompression
+  rotation?: number
 }
 
 export type SvgOptions = {
