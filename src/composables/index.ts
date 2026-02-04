@@ -10,11 +10,16 @@ import type {
   PageFormat,
   SvgGenerateOptions,
   TextCustomOptions,
+  textSplitterGetOptions,
+  TextSplitterOptions,
+  VFSOptions,
 } from '@/types'
 import loadCustomFont from '@/utils/LoadCustomFont'
-import centralizeText from '@/utils/SetTextPosition'
+import SetTextPosition from '@/utils/SetTextPosition'
 import jsPDF, { type jsPDFOptions, type TextOptionsLight } from 'jspdf'
 import { TableBuilder, type TableBuilderConfig } from './useTableBuilder'
+import { addToVFS, getFromVFS, IsInVFS } from '@/plugins/VFS'
+import { GCAWA, GSUW, STTS } from '@/plugins/TextSplitter'
 
 export function useJsPdf(options: jsPDFOptions) {
   /**
@@ -88,7 +93,7 @@ export function useJsPdf(options: jsPDFOptions) {
     transform?: number | unknown,
   ): void => {
     if (options.isCentered) {
-      const { x, y } = centralizeText(pdf, text, options)
+      const { x, y } = SetTextPosition(pdf, text, options)
       pdf.text(text, x, y, textOptions)
       return
     }
@@ -434,7 +439,73 @@ export function useJsPdf(options: jsPDFOptions) {
    * @returns {void} Void
    */
   const svg = (options: SvgGenerateOptions): void => {
-    pdf.addSvgAsImage(options.svg, options.x || 0, options.y || 0, options.width || 0, options.height || 0, options.alias || undefined, false, options.rotation || 0)
+    pdf.addSvgAsImage(
+      options.svg,
+      options.x || 0,
+      options.y || 0,
+      options.width || 0,
+      options.height || 0,
+      options.alias || undefined,
+      false,
+      options.rotation || 0,
+    )
+  }
+
+  /**
+   * @description Add a file to the VFS
+   * @param {VFSOptions} options - Options for the file
+   * @returns {void} Void
+   */
+
+  const addFileToVFS = (options: VFSOptions): void => {
+    addToVFS(pdf, options)
+  }
+
+  /**
+   * @description Get a file from the VFS
+   * @param {string} name - Name of the file
+   * @returns {string} File content
+   */
+
+  const getFileFromVFS = (name: string): string => {
+    return getFromVFS(pdf, name)
+  }
+
+  /**
+   * @description Check if a file is in the VFS
+   * @param {string} name - Name of the file
+   * @returns {boolean} True if the file is in the VFS
+   */
+
+  const isFileInVFS = (name: string): boolean => {
+    return IsInVFS(pdf, name)
+  }
+
+  /**
+   * @description Split text to size
+   * @param {TextSplitterOptions} options - Options for the text splitter
+   * @returns {string[]} Array of text strings
+   */
+  const splitTextToSize = (options: TextSplitterOptions): string[] => {
+    return STTS(pdf, options)
+  }
+
+  /**
+   * @description Get string unit width
+   * @param {textSplitterGetOptions} options - Options for the text splitter
+   * @returns {number} String unit width
+   */
+  const getStringUnitWidth = (options: textSplitterGetOptions): number => {
+    return GSUW(pdf, options)
+  }
+
+  /**
+   * @description Get char widths array
+   * @param {textSplitterGetOptions} options - Options for the text splitter
+   * @returns {any[]} Array of char widths
+   */
+  const getCharWidthsArray = (options: textSplitterGetOptions): any[] => {
+    return GCAWA(pdf, options)
   }
 
   return {
@@ -488,14 +559,25 @@ export function useJsPdf(options: jsPDFOptions) {
     getPageWidth,
     // * SVG
     svg,
+    // * VFS
+    addFileToVFS,
+    getFileFromVFS,
+    isFileInVFS,
+    // * Text Splitter
+    splitTextToSize,
+    getStringUnitWidth,
+    getCharWidthsArray,
   }
 }
 
 // Export TableBuilder and related utilities
 export type { ITableBuilder, TableHelpers } from '@/types/table'
 export {
-  createTotalRow, formatCurrency,
-  formatDate, fromKeys, fromObjects, tableHelpers
+  createTotalRow,
+  formatCurrency,
+  formatDate,
+  fromKeys,
+  fromObjects,
+  tableHelpers,
 } from '@/utils/tableHelpers'
 export { TableBuilder, useTableBuilder, type TableBuilderConfig } from './useTableBuilder'
-

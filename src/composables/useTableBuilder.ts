@@ -1,6 +1,6 @@
 import type { AutoTableContent, AutoTableOptions } from '@/plugins/AutoTable'
 import useAutoTable from '@/plugins/AutoTable'
-import type { TableBuilderEvent } from '@/plugins/table'
+import type { TableBuilderEvent, CellHookEventName, PageHookEventName } from '@/plugins/table'
 import type { CellDefAutoTable } from '@/types/table'
 import type jsPDF from 'jspdf'
 import type {
@@ -339,13 +339,17 @@ export class TableBuilder {
   }
 
   /**
-   * Set a callback for a specific event
+   * Set a callback for a specific event.
+   * The library (jspdf-autotable) invokes your callback and passes the data;
+   * you only provide the callback. The callback receives CellHookData for cell
+   * events and HookData for page events.
    * @param event - Event name
-   * @param callback - Callback function
+   * @param callback - Callback invoked by the library with (data)
    * @returns this - For method chaining
    */
-
-  on(event: keyof TableBuilderEvent, callback: (data: CellHookData | HookData) => void): this {
+  on(event: CellHookEventName, callback: (data: CellHookData) => void): this
+  on(event: PageHookEventName, callback: (data: HookData) => void): this
+  on(event: keyof TableBuilderEvent, callback: TableBuilderEvent[keyof TableBuilderEvent]): this {
     switch (event) {
       case 'didParseCell':
         this.didParseCell = callback
@@ -357,10 +361,10 @@ export class TableBuilder {
         this.didDrawCell = callback
         break
       case 'willDrawPage':
-        this.willDrawPage = callback
+        this.willDrawPage = callback as (data: HookData) => void
         break
       case 'didDrawPage':
-        this.didDrawPage = callback
+        this.didDrawPage = callback as (data: HookData) => void
         break
     }
     return this

@@ -15,7 +15,13 @@ export default defineConfig({
       },
     },
   },
+  head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
   themeConfig: {
+    logo: '/assets/logo.svg',
+    search: {
+      provider: 'local',
+    },
+
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
@@ -38,10 +44,20 @@ export default defineConfig({
           { text: 'Table Builder', link: '/plugins/table-builder' },
           { text: 'Table Builder API Reference', link: '/plugins/table-builder-api-refrences' },
           { text: 'Table Builder Events', link: '/plugins/table-builder-hooks' },
+          { text: 'VFS', link: '/plugins/vfs' },
+        ],
+      },
+      {
+        text: 'Utils',
+        items: [
+          { text: 'containsArabic', link: '/utils/is-arabic-text' },
+          { text: 'textSplitter', link: '/utils/text-splitter' },
+          { text: 'arrayBufferToBase64', link: '/utils/array-buffer-to-base64' },
+          { text: 'LoadCustomFont', link: '/utils/load-custom-font' },
         ],
       },
     ],
 
-    socialLinks: [{ icon: 'github', link: 'https://github.com/vuejs/vitepress' }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/zetaxalhaffar/vue-pdfiy' }],
   },
 })

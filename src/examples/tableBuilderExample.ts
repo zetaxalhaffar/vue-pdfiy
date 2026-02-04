@@ -12,44 +12,36 @@ import type { CellDefAutoTable } from '@/types/table'
 // Example 1: Simple Table
 // ============================================
 export function example1_SimpleTable() {
-  const { savePdf, addText, svg } = useJsPdf({
+  const { savePdf, addText, createTableBuilder } = useJsPdf({
     orientation: 'p',
     unit: 'mm',
     format: 'a4',
   })
 
   addText('Hello, world!', { x: 10, y: 10 })
-  svg({
-    svg: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#B00FFF" stroke="#FF00FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 22h20z"></path></svg>',
-    x: 10,
-    y: 10,
-    width: 400,
-    height: 400,
-  })
-  // createTableBuilder()
-  //   .setHeader([['Name', 'Age', 'City']])
-  //   .addRow(['John Doe', '30', 'New York'])
-  //   .addRow(['Jane Smith', '25', 'Los Angeles'])
-  //   .addRow(['Bob Johnson', '35', 'Chicago'])
-  // .on('willDrawCell', (data) => {
-  //   if (data.section == 'body') return
+  createTableBuilder()
+    .setHeader([['Name', 'Age', 'City']])
+    .addRow(['John Doe', '30', 'New York'])
+    .addRow(['Jane Smith', '25', 'Los Angeles'])
+    .addRow(['Bob Johnson', '35', 'Chicago'])
+    .on('willDrawCell', (data) => {
+      console.log(data)
+      if (data.section == 'body') return
 
-  //   console.log(data)
-  //   if (String(data.cell.raw).toLowerCase() === 'city') {
-  //     const { doc, cell } = data
-  //     const x = cell.x + 2
-  //     const y = cell.y - 2
+      console.log(data)
+      if (String(data.cell.raw).toLowerCase() === 'city') {
+        const { doc, cell } = data
+        const x = cell.x + 2
+        const y = cell.y - 2
 
-  //     doc.setTextColor('#4caf50')
-  //     doc.setFontSize(8)
-  //     doc.text('✔', x, y)
-  //   }
-  // })
-  // .build()
+        doc.setTextColor('#4caf50')
+        doc.setFontSize(8)
+        doc.text('✔', x, y)
+      }
+    })
+    .build()
 
-  setTimeout(() => {
-    savePdf('simple-table.pdf')
-  }, 1000)
+  savePdf('simple-table.pdf')
 }
 
 // ============================================

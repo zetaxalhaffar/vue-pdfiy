@@ -113,7 +113,6 @@ export type TextCustomOptions = {
 
 export type SvgCompression = 'NONE' | 'FAST' | 'MEDIUM' | 'SLOW'
 
-
 export type SvgGenerateOptions = {
   svg: string
   x?: number
@@ -131,4 +130,20 @@ export type SvgOptions = {
   y?: number
   width?: number
   height?: number
+}
+
+export type VFSOptions = {
+  name: string
+  content: string
+}
+
+export type TextSplitterOptions = {
+  text: string
+  size: number
+  extraOptions?: any
+}
+
+export type textSplitterGetOptions = {
+  text: string
+  extraOptions?: any
 }
