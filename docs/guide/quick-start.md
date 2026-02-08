@@ -50,7 +50,7 @@ const { addText, outputAsArrayBuffer, setFontSize, textColor, savePdf } = useJsP
 const preparePdf = () => {
   setFontSize(60)
   textColor('#000000')
-  addText('Hello World', 20, 20)
+  addText('Hello World', { x: 20, y: 20 })
 }
 
 /**
@@ -73,4 +73,4 @@ const downloadPdf = () => {
 }
 ```
 
-<SimpleText />
+<SimpleTable />

@@ -95,13 +95,13 @@
   --vp-home-hero-name-background: -webkit-linear-gradient(
     120deg,
     #211951 0%,
-    #5258E4 25%,
+    #5258e4 25%,
     #211951 50%,
-    #15F5BA 75%,
-    #15F5BA 100%
+    #15f5ba 75%,
+    #15f5ba 100%
   );
 
-  --vp-home-hero-image-background-image: linear-gradient(-45deg, #211951 50%, #15F5BA 50%);
+  --vp-home-hero-image-background-image: linear-gradient(-45deg, #211951 50%, #15f5ba 50%);
   --vp-home-hero-image-filter: blur(44px);
 }
 
@@ -144,10 +144,10 @@
   background: linear-gradient(
     120deg,
     #211951 0%,
-    #5258E4 25%,
+    #5258e4 25%,
     #211951 50%,
-    #5258E4 75%,
-    #15F5BA 100%
+    #5258e4 75%,
+    #15f5ba 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -156,12 +156,15 @@
 }
 
 .pdf-style {
-  border: 1px solid var(--vp-c-brand-1);
-  padding: 10px;
-  border-radius: 10px;
+  display: flex;
+  justify-content: center;
 }
 
-
+.pdf-style canvas {
+  border: 1px solid #00000050;
+  border-radius: 10px;
+  filter: drop-shadow(0 0 0.75rem #00000050);
+}
 
 .button-style {
   background-color: #211951;
@@ -189,4 +192,64 @@
 
 .mb-4 {
   margin-bottom: 16px;
+}
+
+/* Pagination Styles (VitePress Fix) */
+.pagination-container {
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.pagination-list {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 12px !important;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.pagination-list li {
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+.pagination-list li::before {
+  display: none !important;
+}
+
+.pagination-link {
+  display: grid !important;
+  width: 36px !important;
+  height: 36px !important;
+  place-content: center !important;
+  border-radius: 8px !important;
+  border: 1px solid #e2e8f0 !important;
+  background-color: #ffffff !important;
+  color: #211951 !important;
+  transition: all 0.2s ease !important;
+  text-decoration: none !important;
+}
+
+.pagination-link:hover {
+  background-color: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+  transform: translateY(-1px);
+}
+
+.pagination-icon {
+  width: 18px;
+  height: 18px;
+  color: #211951;
+}
+
+.pagination-info {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: #211951 !important;
+  min-width: 45px;
+  text-align: center;
 }

@@ -131,7 +131,7 @@ export function example4_TableFromObjects() {
   createTableBuilder()
     .setHeader(header as CellDefAutoTable[][])
     .addRows(body as CellDefAutoTable[][])
-    .setTheme('grid')
+    .setTheme('plain')
     .setHeaderStyles({ fillColor: '#673AB7', textColor: '#fff' })
     .build()
 
@@ -196,7 +196,7 @@ export function example6_ColumnStyling() {
   createTableBuilder()
     .addHeader(['Status', 'Task', 'Priority', 'Due Date'])
     .addRows([
-      ['😂', 'Complete project', 'High', '2024-01-15'],
+      ['\u0088', 'Complete project', 'High', '2024-01-15'],
       ['😂', 'Review code', 'Medium', '2024-01-20'],
       ['😂', 'Write tests', 'High', '2024-01-18'],
       ['😂', 'Update docs', 'Low', '2024-01-25'],

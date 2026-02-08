@@ -21,11 +21,21 @@ import { VuePDF, usePDF, type PDFSrc } from '@tato30/vue-pdf'
 const pdfUrl = ref<PDFSrc | ArrayBuffer | null>(null)
 const page = ref(1)
 const { pdf } = usePDF(pdfUrl as PDFSrc)
-const { addText, outputAsArrayBuffer, setFontSize, textColor, savePdf } = useJsPdf({})
+const { addText, outputAsArrayBuffer, setFontSize, textColor, savePdf, createTableBuilder } =
+  useJsPdf({})
+
+const HEADER_HEIGHT = 30
+
 const preparePdf = () => {
   setFontSize(60)
   textColor('#000000')
-  addText('Hello World', { x: 20, y: 20 })
+  addText('Simple Table', { x: 0, y: HEADER_HEIGHT, isCentered: true })
+  createTableBuilder()
+    .setStartY(HEADER_HEIGHT + 20)
+    .addHeader(['Header 1', 'Header 2', 'Header 3'])
+    .addRow(['Cell 1', 'Cell 2', 'Cell 3'])
+    .addRow(['Cell 4', 'Cell 5', 'Cell 6'])
+    .build()
 }
 
 const renderPdf = () => {
@@ -36,6 +46,6 @@ const renderPdf = () => {
 
 const downloadPdf = () => {
   preparePdf()
-  savePdf('simple-text.pdf')
+  savePdf('simple-table.pdf')
 }
 </script>
