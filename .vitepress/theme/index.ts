@@ -1,7 +1,7 @@
 // https://vitepress.dev/guide/custom-theme
-import { h, defineAsyncComponent } from 'vue'
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
+import { defineAsyncComponent, h } from 'vue'
 import './style.css'
 
 export default {
@@ -27,12 +27,16 @@ export default {
         () => import('../../src/examples/ReusableTableBuilder.vue'),
       )
       const DynamicTable = defineAsyncComponent(() => import('../../src/examples/DynamicTable.vue'))
+      const CustomTable = defineAsyncComponent(
+        () => import('../../src/examples/CustomizationTable.vue'),
+      )
       app.component('SimpleTable', SimpleTable)
       app.component('MultiTablesWithHeaderFooter', MultiTablesWithHeaderFooter)
       app.component('TableFromObjects', TableFromObjects)
       app.component('InvoiceTable', InvoiceTable)
       app.component('ReusableTableBuilder', ReusableTableBuilder)
       app.component('DynamicTable', DynamicTable)
+      app.component('CustomTable', CustomTable)
     }
   },
 } satisfies Theme

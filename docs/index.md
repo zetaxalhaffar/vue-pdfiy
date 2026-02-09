@@ -13,8 +13,9 @@ hero:
     - theme: brand
       text: Get Started
       link: /guide/introduction
-    # - theme: alt
-
+    - theme: alt
+      text: GitHub
+      link: https://github.com/vuepdfiy/vuepdfiy
 features:
   - title: Simple PDF Creation
     details: Create PDFs with ease using Vue 3 composables

@@ -14,28 +14,28 @@
     >
       <path d="M12 2L2 22h20z"></path>
     </svg>
-    <div>
-      <button @click="saveAutoTable">Save Auto Table</button>
-      <button @click="renderAutoTable">Render Auto Table</button>
+    <div class="flex gap-4 mb-4">
+      <button class="button-style" @click="saveAutoTable">Save Auto Table</button>
+      <button class="button-style" @click="renderAutoTable">Render Auto Table</button>
     </div>
     <div v-if="pdfUrl" class="pdf-style">
       <VuePDF :pdf="pdf" v-if="pdfUrl" :page="page" />
     </div>
   </div>
 
-  <div>
-    <button @click="testExample1">Test Ex 1</button>
-    <button @click="testExample2">Test Ex 2</button>
-    <button @click="testExample3">Test Ex 3</button>
-    <button @click="testExample4">Test Ex 4</button>
-    <button @click="testExample5">Test Ex 5</button>
-    <button @click="testExample6">Test Ex 6</button>
-    <button @click="testExample7">Test Ex 7</button>
-    <button @click="testExample8">Test Ex 8</button>
-    <button @click="testExample9">Test Ex 9</button>
-    <button @click="testExample10">Test Ex 10</button>
-    <button @click="testExample10">Run All Examples</button>
-    <button @click="testExample11">Run All Examples</button>
+  <div class="flex gap-4" style="flex-wrap: wrap">
+    <button class="button-style" @click="testExample1">Test Ex 1</button>
+    <button class="button-style" @click="testExample2">Test Ex 2</button>
+    <button class="button-style" @click="testExample3">Test Ex 3</button>
+    <button class="button-style" @click="testExample4">Test Ex 4</button>
+    <button class="button-style" @click="testExample5">Test Ex 5</button>
+    <button class="button-style" @click="testExample6">Test Ex 6</button>
+    <button class="button-style" @click="testExample7">Test Ex 7</button>
+    <button class="button-style" @click="testExample8">Test Ex 8</button>
+    <button class="button-style" @click="testExample9">Test Ex 9</button>
+    <button class="button-style" @click="testExample10">Test Ex 10</button>
+    <button class="button-style" @click="testExample10">Run All Examples</button>
+    <button class="button-style" @click="testExample11">Run All Examples</button>
   </div>
 </template>
 
@@ -44,6 +44,7 @@ import { useJsPdf } from '@/composables'
 import { VuePDF, usePDF, type PDFSrc } from '@tato30/vue-pdf'
 import { ref } from 'vue'
 import {
+  example10_ResetAndRebuild,
   example1_SimpleTable,
   example2_StyledTable,
   example3_DynamicTable,
@@ -53,7 +54,6 @@ import {
   example7_ReusingBuilder,
   example8_Invoice,
   example9_GetContent,
-  example10_ResetAndRebuild,
   runAllExamples,
 } from './examples/tableBuilderExample'
 const { pdf: pdfJsPdf, outputAsArrayBuffer, createTable } = useJsPdf({})
