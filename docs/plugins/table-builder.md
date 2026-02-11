@@ -248,7 +248,7 @@ const builder: TableBuilder = createTableBuilder(config)
 
 ## Examples
 
-See the [TableBuilder API Reference](./table-builder-api-refrences.md) for method details and the [examples directory](../examples/tableBuilderExample.ts) for comprehensive usage including:
+See the [TableBuilder API Reference](./table-builder-api-refrences.md) for method details and the [examples](../examples/) for comprehensive usage including:
 - Simple tables
 - Styled tables
 - Dynamic generation
