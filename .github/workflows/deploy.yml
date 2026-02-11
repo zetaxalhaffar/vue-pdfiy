@@ -64,3 +64,15 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # Publish to npm
+  publish:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update package.json version
+        run: npm version patch
+      - name: Publish to npm
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
