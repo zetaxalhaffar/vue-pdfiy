@@ -2,6 +2,10 @@
 
 A powerful Vue 3 composable for creating PDF documents with jsPDF and jsPDF-AutoTable. Build PDFs programmatically with a clean, fluent API.
 
+
+[![npm](https://img.shields.io/npm/v/vue-pdfiy)](https://www.npmjs.com/package/vue-pdfiy)
+[![npm downloads](https://img.shields.io/npm/dm/vue-pdfiy)](https://www.npmjs.com/package/vue-pdfiy)
+
 ## Features
 
 - 📄 **Simple PDF Creation** - Create PDFs with ease using Vue 3 composables

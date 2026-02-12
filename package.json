@@ -1,8 +1,16 @@
 {
   "name": "vue-pdfiy",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.0.3",
+  "private": false,
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zetaxalhaffar/vue-pdfiy"
+  },
+  "homepage": "https://github.com/zetaxalhaffar/vue-pdfiy#readme",
+  "bugs": {
+    "url": "https://github.com/zetaxalhaffar/vue-pdfiy/issues"
+  },
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",

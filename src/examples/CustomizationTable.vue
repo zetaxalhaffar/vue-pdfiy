@@ -535,7 +535,7 @@ const generateCode = () => {
   textColor('${config.title.color}')
   addText('${config.title.text}', { x: 0, y: ${HEADER_HEIGHT}, isCentered: true })`
 
-  const headerCode = `    .addHeader([${tableData.headers.map((h) => `'${h}'`).join(', ')}])
+  const headerCode = `    .addHeader([${tableData.headers.map((h: any) => `'${h}'`).join(', ')}])
     .setHeaderStyles({
       fillColor: '${config.header.fillColor}',
       textColor: '${config.header.textColor}',
@@ -545,7 +545,7 @@ const generateCode = () => {
     })`
 
   const bodyCode = `    .addRows([
-${tableData.rows.map((row) => `      [${row.map((cell) => `'${cell}'`).join(', ')}],`).join('\n')}
+${tableData.rows.map((row: any) => `      [${row.map((cell: any) => `'${cell}'`).join(', ')}],`).join('\n')}
     ])
     .setBodyStyles({
       fillColor: '${config.body.fillColor}',
@@ -557,7 +557,7 @@ ${tableData.rows.map((row) => `      [${row.map((cell) => `'${cell}'`).join(', '
     })`
 
   const footerCode = config.footer.enabled
-    ? `    .addFooter([${tableData.footer.map((f) => `'${f}'`).join(', ')}])
+    ? `    .addFooter([${tableData.footer.map((f: any) => `'${f}'`).join(', ')}])
     .setFooterStyles({
       fillColor: '${config.footer.fillColor}',
       textColor: '${config.footer.textColor}',
