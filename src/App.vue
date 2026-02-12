@@ -6,10 +6,7 @@
 </template>
 <script setup lang="ts">
 import { useJsPdf } from "./composables";
-import {
-  createAnnotationFunction,
-  createAnnotationTextLink,
-} from "./plugins/Annotation";
+import { FormBuilder } from "./plugins/ArcoFrom";
 
 const preparePdf = () => {
   image({
@@ -42,39 +39,7 @@ const annotatePdf = async () => {
     "normal",
   );
 
-  createAnnotationFunction(pdf, {
-    type: "text",
-    bounds: {
-      x: 0,
-      y: 0,
-      w: 100,
-      h: 10,
-    },
-    color: "#ff0000",
-    contents: "Hello World!",
-  });
-
-  createAnnotationTextLink(pdf, {
-    text: "link To Text",
-    x: 10,
-    y: 20,
-    options: {
-      url: "https://kords.ai",
-    },
-  });
-
-  // Set the font before adding text
-  pdf.setFont("Cairo", "normal");
-
-  // Arabic text - needs to be reversed for RTL and positioned from right
-  const arabicText = "مرحبا بالعالم";
-  const arabicText2 = pdf.processArabic("مرحبا بالعالم");
-  pdf.text(arabicText, 100, 50, { align: "right" });
-  pdf.text(arabicText2, 100, 100, { align: "right" });
-
-  // Mixed content (Arabic + English)
-  const mixedText = pdf.processArabic("Hello مرحبا 123");
-  pdf.text(mixedText, 100, 70, { align: "right" });
+  FormBuilder(pdf);
 
   savePdf("myPdf.pdf");
 };
