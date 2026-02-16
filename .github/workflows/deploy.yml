@@ -2,8 +2,14 @@ name: Deploy Docs & Publish to NPM
 
 on:
   push:
-    branches: [dev]
+    branches: [main]
   workflow_dispatch:
+    inputs:
+      publish-to-npm:
+        description: "Publish to NPM"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -15,7 +21,6 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Build and deploy VitePress documentation
   build-docs:
     runs-on: ubuntu-latest
     steps:
@@ -32,7 +37,7 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      - name: Build library for docs
+      - name: Build library
         run: bun run build:lib
 
       - name: Build VitePress docs
@@ -51,21 +56,18 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     needs: build-docs
     runs-on: ubuntu-latest
-    name: Deploy Docs
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 
-  # Build and publish to NPM
   publish-npm:
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.publish-to-npm == 'true'
     needs: deploy-docs
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -81,22 +83,26 @@ jobs:
       - name: Build library
         run: bun run build:lib
 
-      - name: Get current version
-        id: package-version
-        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
-
       - name: Check if version exists on npm
         id: check-version
         run: |
-          if npm view vue-pdfiy@${{ steps.package-version.outputs.version }} version 2>/dev/null; then
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view vue-pdfiy@$VERSION version 2>/dev/null; then
             echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Version $VERSION already exists on npm"
           else
             echo "exists=false" >> $GITHUB_OUTPUT
+            echo "Version $VERSION is new"
           fi
 
-      - name: Bump version
+      - name: Bump version if exists
         if: steps.check-version.outputs.exists == 'true'
         run: npm version patch --no-git-tag-version
+
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Commit version bump
         if: steps.check-version.outputs.exists == 'true'
@@ -106,11 +112,6 @@ jobs:
           git add package.json
           git commit -m "chore: bump version [skip ci]"
           git push
-
-      - name: Publish to npm
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create Git tag
         run: |

@@ -3,16 +3,20 @@
   "version": "0.0.6",
   "private": false,
   "type": "module",
-  "main": "./dist/vue-pdfiy.umd.cjs",
+  "main": "./dist/vue-pdfiy.cjs",
   "module": "./dist/vue-pdfiy.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/vue-pdfiy.js",
-      "require": "./dist/vue-pdfiy.umd.cjs"
+      "require": "./dist/vue-pdfiy.cjs"
     }
   },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/zetaxalhaffar/vue-pdfiy"
@@ -21,14 +25,10 @@
   "bugs": {
     "url": "https://github.com/zetaxalhaffar/vue-pdfiy/issues"
   },
-  "files": [
-    "dist",
-    "README.md"
-  ],
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
-    "build:lib": "vite build --mode lib && vue-tsc --declaration --emitDeclarationOnly --outDir dist",
+    "build:lib": "vite build --config vite.config.lib.ts && vue-tsc --project tsconfig.lib.json --declaration --emitDeclarationOnly --outDir dist",
     "prepublishOnly": "npm run build:lib",
     "preview": "vite preview",
     "test:unit": "vitest",
@@ -48,6 +48,9 @@
     "@tato30/vue-pdf": "^1.11.5",
     "jspdf": "^4.1.0",
     "jspdf-autotable": "^5.0.7",
+    "vue": "^3.5.27"
+  },
+  "peerDependencies": {
     "vue": "^3.5.27"
   },
   "devDependencies": {
@@ -78,5 +81,15 @@
   },
   "engines": {
     "node": "^20.19.0 || >=22.12.0"
-  }
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "pdf",
+    "jspdf",
+    "vue-pdf",
+    "pdf-generator",
+    "table-builder",
+    "composable"
+  ]
 }
