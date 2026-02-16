@@ -5,7 +5,7 @@ layout: home
 hero:
   name: 'VuePDFIY'
   text: 'Render, Custom  pages on your website'
-  tagline: An easy-to-use component for rendering PDF pages in a dynamically and customizable way
+  tagline: An easy-to-use composable for rendering PDF pages in a dynamically and customizable way
   image:
     src: /assets/logo.svg
     alt: VuePDFIY

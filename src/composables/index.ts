@@ -2,6 +2,7 @@ import useAutoTable, {
   type AutoTableContent,
   type AutoTableOptions,
 } from "@/plugins/AutoTable";
+import { addSvg } from "@/plugins/Svg";
 import { GCAWA, GSUW, STTS } from "@/plugins/TextSplitter";
 import { addToVFS, getFromVFS, IsInVFS } from "@/plugins/VFS";
 import type {
@@ -651,3 +652,47 @@ export {
   useTableBuilder,
   type TableBuilderConfig,
 } from "./useTableBuilder";
+
+// ============================================
+// EXPORT PLUGINS FOR DIRECT USE
+// ============================================
+
+/**
+ * Virtual File System utilities
+ * @example
+ * import { VFS } from 'vue-pdfiy'
+ * VFS.addToVFS(pdf, { name: 'font.ttf', content: base64String })
+ */
+export const VFS = {
+  addToVFS,
+  getFromVFS,
+  IsInVFS,
+};
+
+/**
+ * Text splitting utilities
+ * @example
+ * import { TextSplitter } from 'vue-pdfiy'
+ * const lines = TextSplitter.splitTextToSize(pdf, { text: 'long text', size: 100 })
+ */
+export const TextSplitter = {
+  splitTextToSize: STTS,
+  getStringUnitWidth: GSUW,
+  getCharWidthsArray: GCAWA,
+};
+
+/**
+ * SVG utilities
+ * @example
+ * import { SVG } from 'vue-pdfiy'
+ * await SVG.addSvg(pdf, { svg: svgString, x: 10, y: 10, width: 100, height: 100 })
+ */
+export const SVG = {
+  addSvg,
+};
+
+/**
+ * Still under development
+ * 1- Annotation
+ * 2- AcroForm
+ */
