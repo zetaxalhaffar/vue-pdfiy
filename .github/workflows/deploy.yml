@@ -2,7 +2,7 @@ name: Deploy Docs & Publish to NPM
 
 on:
   push:
-    branches: [main, dev]
+    branches: [main]
   workflow_dispatch:
     inputs:
       publish-to-npm:
