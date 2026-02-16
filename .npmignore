@@ -1,0 +1,14 @@
+src/
+docs/
+.vitepress/
+.github/
+node_modules/
+*.log
+.DS_Store
+vite.config.ts
+vitest.config.ts
+tsconfig.*.json
+.editorconfig
+.cursorrules
+.oxlintrc.json
+index.html

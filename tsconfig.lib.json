@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.app.json",
+  "include": [
+    "src/composables/**/*",
+    "src/plugins/**/*",
+    "src/types/**/*",
+    "src/utils/**/*",
+  ],
+  "exclude": [
+    "src/examples/**/*",
+    "src/App.vue",
+    "src/main.ts",
+    "src/components/**/*",
+  ],
+  "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+  },
+}
