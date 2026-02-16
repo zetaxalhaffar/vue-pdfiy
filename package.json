@@ -1,8 +1,18 @@
 {
   "name": "vue-pdfiy",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "private": false,
   "type": "module",
+  "main": "./dist/vue-pdfiy.umd.cjs",
+  "module": "./dist/vue-pdfiy.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/vue-pdfiy.js",
+      "require": "./dist/vue-pdfiy.umd.cjs"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/zetaxalhaffar/vue-pdfiy"
@@ -11,9 +21,15 @@
   "bugs": {
     "url": "https://github.com/zetaxalhaffar/vue-pdfiy/issues"
   },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
+    "build:lib": "vite build --mode lib && vue-tsc --declaration --emitDeclarationOnly --outDir dist",
+    "prepublishOnly": "npm run build:lib",
     "preview": "vite preview",
     "test:unit": "vitest",
     "build-only": "vite build",
