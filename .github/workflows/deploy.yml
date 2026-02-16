@@ -7,7 +7,7 @@ on:
     inputs:
       publish-to-npm:
         description: "Publish to NPM"
-        required: false
+        required: true
         type: boolean
         default: false
 
