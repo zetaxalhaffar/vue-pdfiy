@@ -1,4 +1,10 @@
-import useAutoTable, { type AutoTableContent, type AutoTableOptions } from '@/plugins/AutoTable'
+import useAutoTable, {
+  type AutoTableContent,
+  type AutoTableOptions,
+} from "@/plugins/AutoTable";
+import { addSvg } from "@/plugins/Svg";
+import { GCAWA, GSUW, STTS } from "@/plugins/TextSplitter";
+import { addToVFS, getFromVFS, IsInVFS } from "@/plugins/VFS";
 import type {
   LineCapStyle,
   Orientation,
@@ -13,13 +19,15 @@ import type {
   textSplitterGetOptions,
   TextSplitterOptions,
   VFSOptions,
-} from '@/types'
-import loadCustomFont from '@/utils/LoadCustomFont'
-import SetTextPosition from '@/utils/SetTextPosition'
-import jsPDF, { type jsPDFOptions, type TextOptionsLight } from 'jspdf'
-import { TableBuilder, type TableBuilderConfig } from './useTableBuilder'
-import { addToVFS, getFromVFS, IsInVFS } from '@/plugins/VFS'
-import { GCAWA, GSUW, STTS } from '@/plugins/TextSplitter'
+} from "@/types";
+import loadCustomFont from "@/utils/LoadCustomFont";
+import SetTextPosition from "@/utils/SetTextPosition";
+import jsPDF, {
+  type ImageOptions,
+  type jsPDFOptions,
+  type TextOptionsLight,
+} from "jspdf";
+import { TableBuilder, type TableBuilderConfig } from "./useTableBuilder";
 
 export function useJsPdf(options: jsPDFOptions) {
   /**
@@ -27,7 +35,7 @@ export function useJsPdf(options: jsPDFOptions) {
    * @param {jsPDFOptions} options - Options for the jsPDF instance
    * @returns {jsPDF} jsPDF instance
    */
-  const pdf = new jsPDF(options)
+  const pdf = new jsPDF(options);
 
   /**
    * @description Set the file id
@@ -35,8 +43,8 @@ export function useJsPdf(options: jsPDFOptions) {
    * @returns {void} Void
    */
   const fileId = (id: string) => {
-    return pdf.setFileId(id)
-  }
+    return pdf.setFileId(id);
+  };
 
   /**
    * @description Load a custom font
@@ -51,10 +59,10 @@ export function useJsPdf(options: jsPDFOptions) {
     fontPath: string,
     fontName: string,
     fontFamily: string,
-    fontStyle: string = 'normal',
+    fontStyle: string = "normal",
   ) => {
-    await loadCustomFont(pdf, fontPath, fontName, fontFamily, fontStyle)
-  }
+    await loadCustomFont(pdf, fontPath, fontName, fontFamily, fontStyle);
+  };
 
   /**
    * @description Set the font
@@ -64,9 +72,13 @@ export function useJsPdf(options: jsPDFOptions) {
    * @returns {void} Void
    */
 
-  const setFont = (fontName: string, fontStyle?: string, fontWeight?: string | number): void => {
-    pdf.setFont(fontName, fontStyle, fontWeight)
-  }
+  const setFont = (
+    fontName: string,
+    fontStyle?: string,
+    fontWeight?: string | number,
+  ): void => {
+    pdf.setFont(fontName, fontStyle, fontWeight);
+  };
 
   /**
    * @description Set the font size
@@ -75,8 +87,8 @@ export function useJsPdf(options: jsPDFOptions) {
    */
 
   const setFontSize = (size: number): void => {
-    pdf.setFontSize(size)
-  }
+    pdf.setFontSize(size);
+  };
 
   /**
    * @description Add text to the pdf
@@ -93,12 +105,12 @@ export function useJsPdf(options: jsPDFOptions) {
     transform?: number | unknown,
   ): void => {
     if (options.isCentered) {
-      const { x, y } = SetTextPosition(pdf, text, options)
-      pdf.text(text, x, y, textOptions)
-      return
+      const { x, y } = SetTextPosition(pdf, text, options);
+      pdf.text(text, x, y, textOptions);
+      return;
     }
-    pdf.text(text, options.x || 0, options.y || 0, textOptions, transform)
-  }
+    pdf.text(text, options.x || 0, options.y || 0, textOptions, transform);
+  };
 
   /**
    * @description Set the text color
@@ -109,13 +121,18 @@ export function useJsPdf(options: jsPDFOptions) {
    * @returns {void} Void
    */
 
-  const textColor = (ch1: number | string, ch2?: number, ch3?: number, alpha?: number): void => {
-    if (typeof ch1 === 'string') {
-      pdf.setTextColor(ch1)
+  const textColor = (
+    ch1: number | string,
+    ch2?: number,
+    ch3?: number,
+    alpha?: number,
+  ): void => {
+    if (typeof ch1 === "string") {
+      pdf.setTextColor(ch1);
     } else if (ch2 && ch3 && alpha) {
-      pdf.setTextColor(ch1, ch2, ch3, alpha)
+      pdf.setTextColor(ch1, ch2, ch3, alpha);
     }
-  }
+  };
 
   /**
    * @description Create a circle
@@ -127,13 +144,18 @@ export function useJsPdf(options: jsPDFOptions) {
    * [undefined, null, 'S', 'F', 'DF', 'FD', 'f', 'f*', 'B', 'B*'];
    * @returns {void} Void
    */
-  const createCircle = (x: number, y: number, r: number, style?: string | null): void => {
-    pdf.circle(x, y, r, style)
-  }
+  const createCircle = (
+    x: number,
+    y: number,
+    r: number,
+    style?: string | null,
+  ): void => {
+    pdf.circle(x, y, r, style);
+  };
 
-  const clearClip = (rule?: 'evenodd'): void => {
-    pdf.clip(rule)
-  }
+  const clearClip = (rule?: "evenodd"): void => {
+    pdf.clip(rule);
+  };
 
   /**
    * @description Add a new page to the pdf
@@ -141,9 +163,12 @@ export function useJsPdf(options: jsPDFOptions) {
    * @param {Orientation} orientation - Orientation of the page
    * @returns {void} Void
    */
-  const addPage = (format: PageFormat, orientation: Orientation = 'p'): void => {
-    pdf.addPage(format, orientation)
-  }
+  const addPage = (
+    format: PageFormat,
+    orientation: Orientation = "p",
+  ): void => {
+    pdf.addPage(format, orientation);
+  };
 
   /**
    * @description Set the active page
@@ -152,8 +177,8 @@ export function useJsPdf(options: jsPDFOptions) {
    */
 
   const setPage = (pageNumber: number): void => {
-    pdf.setPage(pageNumber)
-  }
+    pdf.setPage(pageNumber);
+  };
 
   /**
    * @description Move a page to a new position
@@ -163,8 +188,8 @@ export function useJsPdf(options: jsPDFOptions) {
    */
 
   const movePage = (targetPage: number, beforePage: number): void => {
-    pdf.movePage(targetPage, beforePage)
-  }
+    pdf.movePage(targetPage, beforePage);
+  };
 
   /**
    * @description Delete a page from the pdf
@@ -172,8 +197,8 @@ export function useJsPdf(options: jsPDFOptions) {
    * @returns {void} Void
    */
   const deletePage = (targetPage: number): void => {
-    pdf.deletePage(targetPage)
-  }
+    pdf.deletePage(targetPage);
+  };
   /**
    * @description Draw a line
    * @param {number} x1 - X coordinate of the start point
@@ -184,9 +209,15 @@ export function useJsPdf(options: jsPDFOptions) {
    * [undefined, null, 'S', 'F', 'DF', 'FD', 'f', 'f*', 'B', 'B*'];
    * @returns {void} Void
    */
-  const drawLine = (x1: number, y1: number, x2: number, y2: number, style?: string): void => {
-    pdf.line(x1, y1, x2, y2, style)
-  }
+  const drawLine = (
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number,
+    style?: string,
+  ): void => {
+    pdf.line(x1, y1, x2, y2, style);
+  };
 
   /**
    * @description Set the line cap style for lines and shapes
@@ -199,8 +230,8 @@ export function useJsPdf(options: jsPDFOptions) {
    *
    */
   const lineCap = (cap: LineCapStyle): void => {
-    pdf.setLineCap(cap)
-  }
+    pdf.setLineCap(cap);
+  };
 
   /**
    * @description Set the line dash pattern
@@ -210,8 +241,8 @@ export function useJsPdf(options: jsPDFOptions) {
    */
 
   const lineDashPattern = (pattern: number[], phase: number): void => {
-    pdf.setLineDashPattern(pattern, phase)
-  }
+    pdf.setLineDashPattern(pattern, phase);
+  };
 
   /**
    * @description Set the line height factor
@@ -219,8 +250,8 @@ export function useJsPdf(options: jsPDFOptions) {
    * @returns {void} Void
    */
   const lineHeightFactor = (factor: number): void => {
-    pdf.setLineHeightFactor(factor)
-  }
+    pdf.setLineHeightFactor(factor);
+  };
 
   /**
    * @description Set the line width
@@ -229,8 +260,8 @@ export function useJsPdf(options: jsPDFOptions) {
    */
 
   const lineWidth = (width: number): void => {
-    pdf.setLineWidth(width)
-  }
+    pdf.setLineWidth(width);
+  };
 
   /**
    * @description Set the miter limit for line joins
@@ -250,8 +281,8 @@ export function useJsPdf(options: jsPDFOptions) {
    *  - Only affects lines when lineJoin is set to 'miter'
    */
   const lineMiterLimit = (limit: number): void => {
-    pdf.setLineMiterLimit(limit)
-  }
+    pdf.setLineMiterLimit(limit);
+  };
 
   /**
    * @description Set the draw color
@@ -262,13 +293,18 @@ export function useJsPdf(options: jsPDFOptions) {
    * @returns {void} Void
    */
 
-  const drawColor = (ch1: number | string, ch2?: number, ch3?: number, alpha?: number): void => {
-    if (typeof ch1 === 'string') {
-      pdf.setDrawColor(ch1)
+  const drawColor = (
+    ch1: number | string,
+    ch2?: number,
+    ch3?: number,
+    alpha?: number,
+  ): void => {
+    if (typeof ch1 === "string") {
+      pdf.setDrawColor(ch1);
     } else if (ch2 && ch3 && alpha) {
-      pdf.setDrawColor(ch1, ch2, ch3, alpha)
+      pdf.setDrawColor(ch1, ch2, ch3, alpha);
     }
-  }
+  };
 
   /**
    * @description Set the fill color
@@ -278,13 +314,18 @@ export function useJsPdf(options: jsPDFOptions) {
    * @param {number} alpha - Alpha channel
    * @returns {void} Void
    */
-  const fillColor = (ch1: number | string, ch2?: number, ch3?: number, alpha?: number): void => {
-    if (typeof ch1 === 'string') {
-      pdf.setFillColor(ch1)
+  const fillColor = (
+    ch1: number | string,
+    ch2?: number,
+    ch3?: number,
+    alpha?: number,
+  ): void => {
+    if (typeof ch1 === "string") {
+      pdf.setFillColor(ch1);
     } else if (ch2 && ch3 && alpha) {
-      pdf.setFillColor(ch1, ch2, ch3, alpha)
+      pdf.setFillColor(ch1, ch2, ch3, alpha);
     }
-  }
+  };
 
   /**
    * @description Draw a line to a point
@@ -294,8 +335,8 @@ export function useJsPdf(options: jsPDFOptions) {
    */
 
   const lineTo = (x: number, y: number): void => {
-    pdf.lineTo(x, y)
-  }
+    pdf.lineTo(x, y);
+  };
 
   /**
    * @description Move to a point
@@ -305,8 +346,8 @@ export function useJsPdf(options: jsPDFOptions) {
    */
 
   const moveTo = (x: number, y: number): void => {
-    pdf.moveTo(x, y)
-  }
+    pdf.moveTo(x, y);
+  };
 
   /**
    * @description show total pages based on expression
@@ -314,50 +355,52 @@ export function useJsPdf(options: jsPDFOptions) {
    * @returns {void} Void
    */
   const putTotalPages = (expression: string): void => {
-    pdf.putTotalPages(expression)
-  }
+    pdf.putTotalPages(expression);
+  };
 
   /**
    * @description Get the page height
    * @returns {number} Total pages
    */
   const getPageHeight = (): number => {
-    return pdf.internal.pageSize.getHeight()
-  }
+    return pdf.internal.pageSize.getHeight();
+  };
 
   /**
    * @description Get the page width
    * @returns {number} Page width
    */
   const getPageWidth = (): number => {
-    return pdf.internal.pageSize.getWidth()
-  }
+    return pdf.internal.pageSize.getWidth();
+  };
 
   /**
    * @description Output the pdf as a string (default)
    * @returns {string} PDF as string
    */
   const output = (): string => {
-    return pdf.output()
-  }
+    return pdf.output();
+  };
 
   /**
    * @description Output the pdf as ArrayBuffer
    * @param {OutputArrayBufferType} type - Must be 'arraybuffer'
    * @returns {ArrayBuffer} PDF as ArrayBuffer
    */
-  const outputAsArrayBuffer = (type: 'arraybuffer' = 'arraybuffer'): ArrayBuffer => {
-    return pdf.output(type)
-  }
+  const outputAsArrayBuffer = (
+    type: "arraybuffer" = "arraybuffer",
+  ): ArrayBuffer => {
+    return pdf.output(type);
+  };
 
   /**
    * @description Output the pdf as Blob
    * @param {OutputBlobType} type - Must be 'blob'
    * @returns {Blob} PDF as Blob
    */
-  const outputAsBlob = (type: 'blob' = 'blob'): Blob => {
-    return pdf.output(type)
-  }
+  const outputAsBlob = (type: "blob" = "blob"): Blob => {
+    return pdf.output(type);
+  };
 
   /**
    * @description Output the pdf as URL (bloburi or bloburl)
@@ -365,8 +408,8 @@ export function useJsPdf(options: jsPDFOptions) {
    * @returns {URL} PDF as URL
    */
   const outputAsUrl = (type: OutputUrlTypes): URL => {
-    return pdf.output(type) as URL
-  }
+    return pdf.output(type) as URL;
+  };
 
   /**
    * @description Output the pdf as data URI string
@@ -374,9 +417,12 @@ export function useJsPdf(options: jsPDFOptions) {
    * @param {OutputOptions} options - Optional options with filename
    * @returns {string} PDF as data URI string
    */
-  const outputAsDataUriString = (type: OutputStringTypes, options?: OutputOptions): string => {
-    return pdf.output(type, options)
-  }
+  const outputAsDataUriString = (
+    type: OutputStringTypes,
+    options?: OutputOptions,
+  ): string => {
+    return pdf.output(type, options);
+  };
 
   /**
    * @description Output the pdf in a new window
@@ -384,9 +430,12 @@ export function useJsPdf(options: jsPDFOptions) {
    * @param {OutputOptions} options - Optional options with filename
    * @returns {Window} New window instance
    */
-  const outputAsNewWindow = (type: OutputWindowTypes, options?: OutputOptions): Window => {
-    return pdf.output(type, options)
-  }
+  const outputAsNewWindow = (
+    type: OutputWindowTypes,
+    options?: OutputOptions,
+  ): Window => {
+    return pdf.output(type, options);
+  };
 
   /**
    * @description Output the pdf as data URI (returns boolean)
@@ -394,9 +443,12 @@ export function useJsPdf(options: jsPDFOptions) {
    * @param {OutputOptions} options - Optional options with filename
    * @returns {boolean} Success status
    */
-  const outputAsDataUri = (type: OutputBooleanTypes, options?: OutputOptions): boolean => {
-    return pdf.output(type, options)
-  }
+  const outputAsDataUri = (
+    type: OutputBooleanTypes,
+    options?: OutputOptions,
+  ): boolean => {
+    return pdf.output(type, options);
+  };
 
   /**
    * @description Save the pdf
@@ -405,17 +457,20 @@ export function useJsPdf(options: jsPDFOptions) {
    */
 
   const savePdf = (filename: string): void => {
-    pdf.save(filename)
-  }
+    pdf.save(filename);
+  };
 
   /**
    * @description Add a table to the pdf
    * @param {AutoTableOptions} options - Options for the table
    * @returns {void} Void
    */
-  const createTable = (content: AutoTableContent, options?: AutoTableOptions): void => {
-    useAutoTable(pdf, options || {}, { ...content })
-  }
+  const createTable = (
+    content: AutoTableContent,
+    options?: AutoTableOptions,
+  ): void => {
+    useAutoTable(pdf, options || {}, { ...content });
+  };
 
   /**
    * @description Create a new TableBuilder instance for programmatic table creation
@@ -430,8 +485,8 @@ export function useJsPdf(options: jsPDFOptions) {
    *   .build()
    */
   const createTableBuilder = (config?: TableBuilderConfig): TableBuilder => {
-    return new TableBuilder(pdf, config)
-  }
+    return new TableBuilder(pdf, config);
+  };
 
   /**
    * @description Add a SVG to the pdf (parses SVG string from user into an SVGElement)
@@ -448,8 +503,8 @@ export function useJsPdf(options: jsPDFOptions) {
       options.alias || undefined,
       false,
       options.rotation || 0,
-    )
-  }
+    );
+  };
 
   /**
    * @description Add a file to the VFS
@@ -458,8 +513,8 @@ export function useJsPdf(options: jsPDFOptions) {
    */
 
   const addFileToVFS = (options: VFSOptions): void => {
-    addToVFS(pdf, options)
-  }
+    addToVFS(pdf, options);
+  };
 
   /**
    * @description Get a file from the VFS
@@ -468,8 +523,8 @@ export function useJsPdf(options: jsPDFOptions) {
    */
 
   const getFileFromVFS = (name: string): string => {
-    return getFromVFS(pdf, name)
-  }
+    return getFromVFS(pdf, name);
+  };
 
   /**
    * @description Check if a file is in the VFS
@@ -478,8 +533,8 @@ export function useJsPdf(options: jsPDFOptions) {
    */
 
   const isFileInVFS = (name: string): boolean => {
-    return IsInVFS(pdf, name)
-  }
+    return IsInVFS(pdf, name);
+  };
 
   /**
    * @description Split text to size
@@ -487,8 +542,8 @@ export function useJsPdf(options: jsPDFOptions) {
    * @returns {string[]} Array of text strings
    */
   const splitTextToSize = (options: TextSplitterOptions): string[] => {
-    return STTS(pdf, options)
-  }
+    return STTS(pdf, options);
+  };
 
   /**
    * @description Get string unit width
@@ -496,8 +551,8 @@ export function useJsPdf(options: jsPDFOptions) {
    * @returns {number} String unit width
    */
   const getStringUnitWidth = (options: textSplitterGetOptions): number => {
-    return GSUW(pdf, options)
-  }
+    return GSUW(pdf, options);
+  };
 
   /**
    * @description Get char widths array
@@ -505,8 +560,18 @@ export function useJsPdf(options: jsPDFOptions) {
    * @returns {any[]} Array of char widths
    */
   const getCharWidthsArray = (options: textSplitterGetOptions): any[] => {
-    return GCAWA(pdf, options)
-  }
+    return GCAWA(pdf, options);
+  };
+
+  const image = (options: ImageOptions): void => {
+    pdf.addImage(
+      options.imageData,
+      options.x || 0,
+      options.y || 0,
+      options.width || 0,
+      options.height || 0,
+    );
+  };
 
   return {
     pdf,
@@ -567,11 +632,13 @@ export function useJsPdf(options: jsPDFOptions) {
     splitTextToSize,
     getStringUnitWidth,
     getCharWidthsArray,
-  }
+    // * Image
+    image,
+  };
 }
 
 // Export TableBuilder and related utilities
-export type { ITableBuilder, TableHelpers } from '@/types/table'
+export type { ITableBuilder, TableHelpers } from "@/types/table";
 export {
   createTotalRow,
   formatCurrency,
@@ -579,5 +646,53 @@ export {
   fromKeys,
   fromObjects,
   tableHelpers,
-} from '@/utils/tableHelpers'
-export { TableBuilder, useTableBuilder, type TableBuilderConfig } from './useTableBuilder'
+} from "@/utils/tableHelpers";
+export {
+  TableBuilder,
+  useTableBuilder,
+  type TableBuilderConfig,
+} from "./useTableBuilder";
+
+// ============================================
+// EXPORT PLUGINS FOR DIRECT USE
+// ============================================
+
+/**
+ * Virtual File System utilities
+ * @example
+ * import { VFS } from 'vue-pdfiy'
+ * VFS.addToVFS(pdf, { name: 'font.ttf', content: base64String })
+ */
+export const VFS = {
+  addToVFS,
+  getFromVFS,
+  IsInVFS,
+};
+
+/**
+ * Text splitting utilities
+ * @example
+ * import { TextSplitter } from 'vue-pdfiy'
+ * const lines = TextSplitter.splitTextToSize(pdf, { text: 'long text', size: 100 })
+ */
+export const TextSplitter = {
+  splitTextToSize: STTS,
+  getStringUnitWidth: GSUW,
+  getCharWidthsArray: GCAWA,
+};
+
+/**
+ * SVG utilities
+ * @example
+ * import { SVG } from 'vue-pdfiy'
+ * await SVG.addSvg(pdf, { svg: svgString, x: 10, y: 10, width: 100, height: 100 })
+ */
+export const SVG = {
+  addSvg,
+};
+
+/**
+ * Still under development
+ * 1- Annotation
+ * 2- AcroForm
+ */

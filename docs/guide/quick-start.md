@@ -5,19 +5,19 @@
 ::: code-group
 
 ```bash [bun]
-bun add vuepdfiy
+bun add vue-pdfiy
 ```
 
 ```bash [npm]
-npm install vuepdfiy
+npm install vue-pdfiy
 ```
 
 ```bash [pnpm]
-pnpm add vuepdfiy
+pnpm add vue-pdfiy
 ```
 
 ```bash [yarn]
-yarn add vuepdfiy
+yarn add vue-pdfiy
 ```
 
 :::
@@ -33,44 +33,45 @@ Basically vue-pdfiy warps `pdf.js` library so all main features of pdf.js are su
 ## Simple Text Example
 
 ```ts
-import { useJsPdf } from 'vuepdfiy'
-import { ref } from 'vue'
-import { VuePDF, usePDF, type PDFSrc } from '@tato30/vue-pdf'
+import { useJsPdf } from "vue-pdfiy";
+import { ref } from "vue";
+import { VuePDF, usePDF, type PDFSrc } from "@tato30/vue-pdf";
 
-const pdfUrl = ref(null)
-const page = ref(1)
-const { pdf } = usePDF(pdfUrl)
+const pdfUrl = ref(null);
+const page = ref(1);
+const { pdf } = usePDF(pdfUrl);
 /*  Use the Composable as a Combo */
-const { addText, outputAsArrayBuffer, setFontSize, textColor, savePdf } = useJsPdf({})
+const { addText, outputAsArrayBuffer, setFontSize, textColor, savePdf } =
+  useJsPdf({});
 
 /**
  * Prepare the pdf
  */
 
 const preparePdf = () => {
-  setFontSize(60)
-  textColor('#000000')
-  addText('Hello World', { x: 20, y: 20 })
-}
+  setFontSize(60);
+  textColor("#000000");
+  addText("Hello World", { x: 20, y: 20 });
+};
 
 /**
  * Render the pdf
  */
 
 const renderPdf = () => {
-  preparePdf()
-  const arrayBuffer = outputAsArrayBuffer()
-  pdfUrl.value = arrayBuffer
-}
+  preparePdf();
+  const arrayBuffer = outputAsArrayBuffer();
+  pdfUrl.value = arrayBuffer;
+};
 
 /**
  * Download the pdf
  */
 
 const downloadPdf = () => {
-  preparePdf()
-  savePdf('simple-text.pdf')
-}
+  preparePdf();
+  savePdf("simple-text.pdf");
+};
 ```
 
 <SimpleTable />

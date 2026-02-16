@@ -1,9 +1,15 @@
-name: Deploy VitePress site to Pages
+name: Deploy Docs & Publish to NPM
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      publish-to-npm:
+        description: "Publish to NPM"
+        required: true
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -15,7 +21,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  build-docs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -28,19 +34,13 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Remove node_modules
-        run: rm -rf node_modules
-
-      - name: Remove .vitepress/dist
-        run: rm -rf .vitepress/dist
-
       - name: Install dependencies
         run: bun install
 
-      - name: Build Vue Project
-        run: bun run build
+      - name: Build library
+        run: bun run build:lib
 
-      - name: Build with VitePress
+      - name: Build VitePress docs
         run: bun run docs:build
         env:
           BASE: /${{ github.event.repository.name }}/
@@ -50,38 +50,73 @@ jobs:
         with:
           path: .vitepress/dist
 
-  deploy:
+  deploy-docs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    needs: build
+    needs: build-docs
     runs-on: ubuntu-latest
-    name: Deploy
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 
-  publish:
-    needs: deploy
+  publish-npm:
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.publish-to-npm == 'true'
+    needs: deploy-docs
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout # ← was missing
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node # ← was missing
-        uses: actions/setup-node@v3
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
 
-      - name: Install dependencies # ← was missing
-        run: npm install
+      - uses: oven-sh/setup-bun@v1
 
-      - name: Bump version
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build library
+        run: bun run build:lib
+
+      - name: Check if version exists on npm
+        id: check-version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view vue-pdfiy@$VERSION version 2>/dev/null; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Version $VERSION already exists on npm"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "Version $VERSION is new"
+          fi
+
+      - name: Bump version if exists
+        if: steps.check-version.outputs.exists == 'true'
         run: npm version patch --no-git-tag-version
 
       - name: Publish to npm
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Commit version bump
+        if: steps.check-version.outputs.exists == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add package.json
+          git commit -m "chore: bump version [skip ci]"
+          git push
+
+      - name: Create Git tag
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          git tag v$VERSION
+          git push origin v$VERSION
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
