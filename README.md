@@ -8,7 +8,7 @@ A powerful Vue 3 composable for creating PDF documents with jsPDF and jsPDF-Auto
 > This package is currently under active maintenance and development. While it's functional, the API may change and some features may not be fully stable yet. We recommend:
 > - Use with caution in production environments
 > - Pin to a specific version in your `package.json`
-> - Report any issues you encounter on [GitHub Issues](https://github.com/your-username/vue-pdfiy/issues)
+> - Report any issues you encounter on [GitHub Issues](https://github.com/zetaxalhaffar/vue-pdfiy/issues)
 > 
 > We're working hard to stabilize the package and appreciate your patience and feedback!
 
